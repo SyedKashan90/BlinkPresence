@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cleartext HTTP is allowed here so the debug build can talk to a local
+     `manage.py runserver` (emulator alias 10.0.2.2 or a LAN IP) without a
+     cert. Point API_BASE_URL at an https:// host for production and this
+     stops mattering since TLS is used regardless of this policy. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
