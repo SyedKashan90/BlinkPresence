@@ -10,13 +10,16 @@ from .base import *  # noqa: F401,F403
 
 DEBUG = False
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=config("DATABASE_SSL_REQUIRE", default=True, cast=bool),
-    )
-}
+_db_url = config("DATABASE_URL", default="")
+if _db_url:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=_db_url,
+            conn_max_age=600,
+            ssl_require=config("DATABASE_SSL_REQUIRE", default=True, cast=bool),
+        )
+    }
+
 
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
