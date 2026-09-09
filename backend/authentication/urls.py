@@ -8,6 +8,7 @@ from .views import (
     PasswordResetConfirmView,
     PasswordResetRequestView,
     RefreshView,
+    SeedAdminView,
 )
 
 urlpatterns = [
@@ -18,4 +19,5 @@ urlpatterns = [
     path("auth/change-password", ChangePasswordView.as_view(), name="auth-change-password"),
     path("auth/password-reset", PasswordResetRequestView.as_view(), name="auth-password-reset"),
     path("auth/password-reset/confirm", PasswordResetConfirmView.as_view(), name="auth-password-reset-confirm"),
+    path("auth/seed-admin", SeedAdminView.as_view(), name="auth-seed-admin"),
 ]

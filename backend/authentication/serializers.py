@@ -21,7 +21,9 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         if "email" in attrs and isinstance(attrs["email"], str):
-            attrs["email"] = attrs["email"].strip().lower()
+            clean_email = attrs["email"].strip().lower()
+            attrs["email"] = clean_email
+            attrs[self.username_field] = clean_email
         data = super().validate(attrs)
         data["role"] = self.user.role
         data["user_id"] = str(self.user.id)

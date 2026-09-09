@@ -131,3 +131,44 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         user.save(update_fields=["password"])
         log_action(user=user, request=request, action="password_reset", entity_type="User")
         return Response({"detail": "Password has been reset."})
+
+
+class SeedAdminView(APIView):
+    """GET/POST /api/auth/seed-admin — One-touch seed endpoint to ensure admin account exists in production database."""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return self._seed()
+
+    def post(self, request):
+        return self._seed()
+
+    def _seed(self):
+        email = "admin@smartattendance.com"
+        password = "Admin@123456"
+        user, created = User.all_objects.get_or_create(
+            email=email,
+            defaults={
+                "role": User.Role.ADMIN,
+                "is_staff": True,
+                "is_superuser": True,
+                "is_active": True,
+            },
+        )
+        user.role = User.Role.ADMIN
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.set_password(password)
+        user.save()
+
+        return Response(
+            {
+                "status": "success",
+                "message": "Admin account ready for login",
+                "email": email,
+                "password": password,
+            },
+            status=status.HTTP_200_OK,
+        )
+
