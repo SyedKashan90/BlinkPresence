@@ -19,8 +19,9 @@ export default function Login() {
     try {
       const data = await login(email, password)
       navigate(data.role === 'admin' ? '/admin' : '/teacher')
-    } catch {
-      setError('Invalid email or password.')
+    } catch (err) {
+      const msg = err.response?.data?.detail || err.message || 'Invalid email or password.'
+      setError(msg)
     } finally {
       setBusy(false)
     }
