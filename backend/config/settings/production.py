@@ -10,6 +10,22 @@ from .base import *  # noqa: F401,F403
 
 DEBUG = False
 
+_allowed_hosts_raw = config("ALLOWED_HOSTS", default="*")
+if _allowed_hosts_raw == "*":
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_raw.split(",") if h.strip()]
+
+_cors_origins_raw = config("CORS_ALLOWED_ORIGINS", default="")
+if _cors_origins_raw:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins_raw.split(",") if o.strip()]
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
+
 _db_url = config("DATABASE_URL", default="")
 if _db_url:
     DATABASES = {
