@@ -20,9 +20,9 @@ android {
         // Android emulator's alias for the host machine's localhost.
         // Physical devices on the same Wi-Fi should override this with the
         // dev machine's LAN IP, e.g. -PapiBaseUrl=http://192.168.1.20:8000/
-        val apiBaseUrl = (project.findProperty("apiBaseUrl") as String?) ?: "http://192.168.1.8:8000/"
+        val apiBaseUrl = (project.findProperty("apiBaseUrl") as String?) ?: "http://192.168.1.7:8000/"
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
-        val wsBaseUrl = (project.findProperty("wsBaseUrl") as String?) ?: "ws://192.168.1.8:8000/"
+        val wsBaseUrl = (project.findProperty("wsBaseUrl") as String?) ?: "ws://192.168.1.7:8000/"
         buildConfigField("String", "WS_BASE_URL", "\"$wsBaseUrl\"")
     }
 

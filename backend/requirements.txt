@@ -1,4 +1,4 @@
-﻿asgiref==3.12.1
+asgiref==3.12.1
 attrs==26.1.0
 autobahn==26.7.1
 Automat==25.4.16
@@ -13,7 +13,7 @@ constantly==23.10.4
 cryptography==49.0.0
 daphne==4.2.3
 dj-database-url==3.1.2
-Django==6.0.7
+Django==5.1.6
 django-cors-headers==4.9.0
 django-filter==26.1
 djangorestframework==3.17.1

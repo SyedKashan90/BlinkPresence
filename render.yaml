@@ -11,7 +11,7 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: config.settings.production
       - key: PYTHON_VERSION
-        value: 3.11.9
+        value: 3.12.8
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG

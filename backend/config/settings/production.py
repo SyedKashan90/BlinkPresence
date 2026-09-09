@@ -15,13 +15,10 @@ if _db_url:
     DATABASES = {
         "default": dj_database_url.config(
             default=_db_url,
-            conn_max_age=config("CONN_MAX_AGE", default=600, cast=int),
+            conn_max_age=600,
             ssl_require=config("DATABASE_SSL_REQUIRE", default=True, cast=bool),
         )
     }
-    if config("DISABLE_SERVER_SIDE_CURSORS", default=False, cast=bool):
-        DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
-
 
 
 SECURE_SSL_REDIRECT = True
