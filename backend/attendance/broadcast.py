@@ -22,7 +22,12 @@ def broadcast_attendance_marked(attendance):
         "marked_at": attendance.marked_at.isoformat(),
     }
 
-    async_to_sync(channel_layer.group_send)(
-        f"lecture_{attendance.lecture_id}",
-        {"type": "attendance.marked", "payload": payload},
-    )
+    try:
+        async_to_sync(channel_layer.group_send)(
+            f"lecture_{attendance.lecture_id}",
+            {"type": "attendance.marked", "payload": payload},
+        )
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning(f"Failed to broadcast attendance update: {e}")
+

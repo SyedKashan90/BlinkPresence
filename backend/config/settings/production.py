@@ -67,8 +67,8 @@ LOGGING = {
 # Redis-backed channel layer so WebSocket broadcasts fan out correctly across
 # multiple Gunicorn/Daphne worker processes. Falls back to the in-memory
 # layer (single-process only) if REDIS_URL isn't configured yet.
-_redis_url = config("REDIS_URL", default="")
-if _redis_url:
+_redis_url = config("REDIS_URL", default="").strip()
+if _redis_url and (_redis_url.startswith("redis://") or _redis_url.startswith("rediss://") or _redis_url.startswith("unix://")):
     CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
