@@ -61,15 +61,13 @@ fun LoginScreen(services: ServiceLocator, onLoggedIn: () -> Unit) {
                 .fillMaxWidth()
                 .padding(horizontal = 28.dp),
         ) {
-            Box(
-                Modifier
-                    .size(56.dp)
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(id = com.smartattendance.app.R.drawable.logo),
+                contentDescription = "Blink Presence Logo",
+                modifier = Modifier
+                    .size(72.dp)
                     .align(Alignment.CenterHorizontally)
-                    .background(Primary, RoundedCornerShape(16.dp)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text("BP", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
+            )
 
             Text(
                 "Blink Presence",

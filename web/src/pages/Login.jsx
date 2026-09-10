@@ -31,10 +31,8 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-surface px-4">
       <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="mb-6 flex flex-col items-center">
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
-            BP
-          </div>
-          <h1 className="text-lg font-semibold text-ink">Blink Presence</h1>
+          <img src="/logo.png" alt="Blink Presence Logo" className="mb-3 h-16 w-16 object-contain rounded-xl shadow-sm" />
+          <h1 className="text-xl font-bold text-ink tracking-tight">Blink Presence</h1>
           <p className="text-sm text-slate-400">Sign in to your dashboard</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">

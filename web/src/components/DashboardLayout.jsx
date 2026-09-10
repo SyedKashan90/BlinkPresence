@@ -18,13 +18,11 @@ export default function DashboardLayout({ title, links, children }) {
   return (
     <div className="flex min-h-screen bg-surface">
       <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
-        <div className="flex items-center gap-2 border-b border-slate-200 px-6 py-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-bold text-white">
-            BP
-          </div>
+        <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
+          <img src="/logo.png" alt="Blink Presence Logo" className="h-10 w-10 object-contain rounded-lg shadow-sm" />
           <div>
-            <p className="text-sm font-semibold text-ink">Blink Presence</p>
-            <p className="text-xs text-slate-400">{title}</p>
+            <p className="text-sm font-bold text-ink tracking-tight">Blink Presence</p>
+            <p className="text-xs text-slate-400 font-medium">{title}</p>
           </div>
         </div>
         <nav className="flex-1 space-y-1 px-3 py-4">
