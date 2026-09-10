@@ -24,7 +24,14 @@ class MarkAttendanceView(APIView):
     def post(self, request):
         serializer = MarkAttendanceSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        student = Student.objects.get(user=request.user)
+
+        try:
+            student = Student.objects.get(user=request.user)
+        except Student.DoesNotExist:
+            return Response(
+                {"status": "failed", "detail": "No student profile is linked to your account. Please contact an administrator."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
             attendance = mark_attendance(
@@ -35,6 +42,11 @@ class MarkAttendanceView(APIView):
             )
         except AttendanceValidationError as exc:
             return Response({"status": "failed", "detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as exc:
+            return Response(
+                {"status": "failed", "detail": f"An unexpected error occurred: {str(exc)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
         log_action(
             user=request.user, request=request, action="mark_attendance", entity_type="Attendance", entity_id=attendance.id
@@ -70,7 +82,10 @@ class MyAttendanceView(APIView):
 
     def get(self, request, student_id):
         if request.user.role == User.Role.STUDENT:
-            student = Student.objects.get(user=request.user)
+            try:
+                student = Student.objects.get(user=request.user)
+            except Student.DoesNotExist:
+                return Response({"detail": "No student profile linked."}, status=status.HTTP_404_NOT_FOUND)
             if str(student.id) != str(student_id):
                 return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         records = Attendance.objects.select_related("lecture", "lecture__course").filter(student_id=student_id)

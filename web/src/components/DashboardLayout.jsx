@@ -20,10 +20,10 @@ export default function DashboardLayout({ title, links, children }) {
       <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
         <div className="flex items-center gap-2 border-b border-slate-200 px-6 py-5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-bold text-white">
-            SA
+            BP
           </div>
           <div>
-            <p className="text-sm font-semibold text-ink">Smart Attendance</p>
+            <p className="text-sm font-semibold text-ink">Blink Presence</p>
             <p className="text-xs text-slate-400">{title}</p>
           </div>
         </div>

@@ -101,7 +101,7 @@ class PasswordResetRequestView(generics.GenericAPIView):
             token = default_token_generator.make_token(user)
             reset_link = f"{settings.FRONTEND_URL}/reset-password?uid={uid}&token={token}"
             send_mail(
-                subject="Reset your Smart Attendance System password",
+                subject="Reset your Blink Presence password",
                 message=f"Use this link to reset your password: {reset_link}\nThis link expires soon and can only be used once.",
                 from_email=None,
                 recipient_list=[user.email],
@@ -144,29 +144,30 @@ class SeedAdminView(APIView):
         return self._seed()
 
     def _seed(self):
-        email = "admin@smartattendance.com"
         password = "Admin@123456"
-        user, created = User.all_objects.get_or_create(
-            email=email,
-            defaults={
-                "role": User.Role.ADMIN,
-                "is_staff": True,
-                "is_superuser": True,
-                "is_active": True,
-            },
-        )
-        user.role = User.Role.ADMIN
-        user.is_staff = True
-        user.is_superuser = True
-        user.is_active = True
-        user.set_password(password)
-        user.save()
+        emails = ["admin@blinkpresence.com", "admin@smartattendance.com"]
+        for email in emails:
+            user, _ = User.all_objects.get_or_create(
+                email=email,
+                defaults={
+                    "role": User.Role.ADMIN,
+                    "is_staff": True,
+                    "is_superuser": True,
+                    "is_active": True,
+                },
+            )
+            user.role = User.Role.ADMIN
+            user.is_staff = True
+            user.is_superuser = True
+            user.is_active = True
+            user.set_password(password)
+            user.save()
 
         return Response(
             {
                 "status": "success",
-                "message": "Admin account ready for login",
-                "email": email,
+                "message": "Admin accounts ready for login",
+                "emails": emails,
                 "password": password,
             },
             status=status.HTTP_200_OK,

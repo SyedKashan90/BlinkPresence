@@ -68,11 +68,11 @@ fun LoginScreen(services: ServiceLocator, onLoggedIn: () -> Unit) {
                     .background(Primary, RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("SA", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text("BP", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
             }
 
             Text(
-                "Smart Attendance",
+                "Blink Presence",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Ink,

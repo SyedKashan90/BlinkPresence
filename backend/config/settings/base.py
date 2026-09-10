@@ -149,7 +149,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "AI-Powered Smart Attendance System API",
+    "TITLE": "Blink Presence API",
     "DESCRIPTION": "Privacy-first hybrid QR + on-device face verification attendance platform.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,

@@ -20,9 +20,9 @@ android {
         // Android emulator's alias for the host machine's localhost.
         // Physical devices on the same Wi-Fi should override this with the
         // dev machine's LAN IP, e.g. -PapiBaseUrl=http://192.168.1.20:8000/
-        val apiBaseUrl = (project.findProperty("apiBaseUrl") as String?) ?: "http://192.168.1.7:8000/"
+        val apiBaseUrl = (project.findProperty("apiBaseUrl") as String?) ?: "https://blinkpresence.onrender.com/"
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
-        val wsBaseUrl = (project.findProperty("wsBaseUrl") as String?) ?: "ws://192.168.1.7:8000/"
+        val wsBaseUrl = (project.findProperty("wsBaseUrl") as String?) ?: "wss://blinkpresence.onrender.com/"
         buildConfigField("String", "WS_BASE_URL", "\"$wsBaseUrl\"")
     }
 
@@ -95,6 +95,7 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.6.1")
     implementation("androidx.camera:camera-view:1.6.1")
     implementation("com.google.zxing:core:3.5.4")
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
     implementation("com.google.mlkit:face-detection:16.1.7")
     implementation("org.tensorflow:tensorflow-lite:2.17.0")
 
