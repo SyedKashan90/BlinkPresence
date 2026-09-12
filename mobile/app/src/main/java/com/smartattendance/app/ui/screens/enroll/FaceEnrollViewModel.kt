@@ -60,6 +60,7 @@ class FaceEnrollViewModel(
                 // No bundled TFLite model: fall back to a liveness-only enrollment
                 // so the rest of the app (QR scan, marking attendance) still works end-to-end.
                 tokenStore.faceEmbedding = LIVENESS_ONLY_SENTINEL
+                tokenStore.faceEnrollmentTimestamp = System.currentTimeMillis()
                 _state.update { it.copy(step = EnrollStep.DONE, message = "Enrolled (liveness-only mode — no embedding model bundled)") }
                 return@launch
             }
@@ -69,7 +70,8 @@ class FaceEnrollViewModel(
                 return@launch
             }
             tokenStore.faceEmbedding = FaceMatcher.encode(embedding)
-            _state.update { it.copy(step = EnrollStep.DONE, message = "Face enrolled") }
+            tokenStore.faceEnrollmentTimestamp = System.currentTimeMillis()
+            _state.update { it.copy(step = EnrollStep.DONE, message = "Face enrolled successfully!") }
         }
     }
 

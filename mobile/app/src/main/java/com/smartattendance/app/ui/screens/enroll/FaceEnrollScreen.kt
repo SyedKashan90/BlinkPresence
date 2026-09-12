@@ -40,9 +40,10 @@ fun FaceEnrollScreen(services: ServiceLocator, onDone: () -> Unit, onCancel: () 
     val state by viewModel.state.collectAsState()
     val controller = remember { FaceCaptureController() }
 
-    if (state.step == EnrollStep.DONE) {
-        onDone()
-        return
+    androidx.compose.runtime.LaunchedEffect(state.step) {
+        if (state.step == EnrollStep.DONE) {
+            onDone()
+        }
     }
 
     RequireCameraPermission(rationale = "Camera access is needed to enroll your face for attendance verification.") {

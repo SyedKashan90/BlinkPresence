@@ -50,16 +50,31 @@ class TokenStore(context: Context) {
         get() = prefs.getString(KEY_FULL_NAME, null)
         set(value) = prefs.edit().putString(KEY_FULL_NAME, value).apply()
 
-    /** Base64(float32[] embedding), set once during face enrollment. */
+    /** Base64(float32[] embedding), set during face enrollment. */
     var faceEmbedding: String?
         get() = prefs.getString(KEY_FACE_EMBEDDING, null)
         set(value) = prefs.edit().putString(KEY_FACE_EMBEDDING, value).apply()
 
+    /** Unix timestamp (ms) when face was enrolled. */
+    var faceEnrollmentTimestamp: Long
+        get() = prefs.getLong(KEY_FACE_ENROLLMENT_TIME, 0L)
+        set(value) = prefs.edit().putLong(KEY_FACE_ENROLLMENT_TIME, value).apply()
+
     val isLoggedIn: Boolean
         get() = accessToken != null && refreshToken != null
 
+    /** 30 Days in milliseconds (30 * 24 * 60 * 60 * 1000L = 2,592,000,000L). */
+    val isFaceEnrollmentExpired: Boolean
+        get() {
+            if (faceEmbedding == null) return false
+            val currentTime = System.currentTimeMillis()
+            val enrolledTime = faceEnrollmentTimestamp
+            if (enrolledTime == 0L) return false
+            return (currentTime - enrolledTime) > 2_592_000_000L
+        }
+
     val isFaceEnrolled: Boolean
-        get() = faceEmbedding != null
+        get() = faceEmbedding != null && !isFaceEnrollmentExpired
 
     fun clearSession() {
         prefs.edit()
@@ -70,9 +85,7 @@ class TokenStore(context: Context) {
             .remove(KEY_EMAIL)
             .remove(KEY_FULL_NAME)
             .apply()
-        // faceEmbedding is deliberately kept across logout: it is tied to the
-        // device+enrolled face, not the session, so a returning student
-        // doesn't need to re-enroll after logging back in.
+        // faceEmbedding is deliberately kept across logout unless expired.
     }
 
     private companion object {
@@ -83,5 +96,6 @@ class TokenStore(context: Context) {
         const val KEY_EMAIL = "email"
         const val KEY_FULL_NAME = "full_name"
         const val KEY_FACE_EMBEDDING = "face_embedding"
+        const val KEY_FACE_ENROLLMENT_TIME = "face_enrollment_time"
     }
 }
