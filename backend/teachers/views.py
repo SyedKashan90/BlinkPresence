@@ -39,3 +39,23 @@ class TeacherViewSet(viewsets.ModelViewSet):
     def me(self, request):
         teacher = Teacher.objects.select_related("user", "department").get(user=request.user)
         return Response(TeacherSerializer(teacher).data)
+
+    @action(detail=True, methods=["post"], url_path="reset-password")
+    def reset_password(self, request, pk=None):
+        teacher = self.get_object()
+        new_password = request.data.get("new_password")
+        if not new_password or len(new_password) < 8:
+            return Response(
+                {"new_password": ["Password must be at least 8 characters long."]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        teacher.user.set_password(new_password)
+        teacher.user.save(update_fields=["password"])
+        log_action(
+            user=request.user,
+            request=request,
+            action="admin_reset_teacher_password",
+            entity_type="Teacher",
+            entity_id=teacher.id,
+        )
+        return Response({"detail": f"Password reset successfully for teacher {teacher.full_name}."})

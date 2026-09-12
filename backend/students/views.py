@@ -68,3 +68,23 @@ class StudentViewSet(viewsets.ModelViewSet):
             return Response(RegisteredDeviceSerializer(device).data, status=status.HTTP_201_CREATED)
         devices = student.registered_devices.all()
         return Response(RegisteredDeviceSerializer(devices, many=True).data)
+
+    @action(detail=True, methods=["post"], url_path="reset-password")
+    def reset_password(self, request, pk=None):
+        student = self.get_object()
+        new_password = request.data.get("new_password")
+        if not new_password or len(new_password) < 8:
+            return Response(
+                {"new_password": ["Password must be at least 8 characters long."]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        student.user.set_password(new_password)
+        student.user.save(update_fields=["password"])
+        log_action(
+            user=request.user,
+            request=request,
+            action="admin_reset_student_password",
+            entity_type="Student",
+            entity_id=student.id,
+        )
+        return Response({"detail": f"Password reset successfully for student {student.full_name}."})
